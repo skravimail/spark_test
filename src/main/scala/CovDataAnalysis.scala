@@ -83,14 +83,16 @@ object CovDataAnalysis extends App {
 
   import spark.implicits._
 
-  val lines = spark.read.csv("/Users/alpha/WSPACE/scala_spark_sample/US_COV_DATA.csv")
+  val lines = spark.read.option("header", "true").csv("US_COVID_DATA_SHORT_W_HEADER.csv")
 
   // Some of the columns have quotes in it - we need to remove them
   val strippedQuotesDf = lines.select(lines.columns.map(c => stripQuotesUDF(col(c)).alias(c)): _*)
 
-  val renamedDf = strippedQuotesDf.toDF(colList: _*)
+  strippedQuotesDf.show(5)
+  strippedQuotesDf.printSchema()
 
-  val renamedDfWithCast = renamedDf
+
+  val renamedDfWithCast = strippedQuotesDf
     .withColumn("submission_date", to_date($"submission_date", "MM/dd/yyyy"))
     .withColumn("total_cases", col("total_cases").cast(IntegerType))
     .withColumn("new_case", col("new_case").cast(IntegerType))
@@ -107,7 +109,7 @@ object CovDataAnalysis extends App {
   // Print some sample data  with some filtering
   extendedCovDS.filter(_.cov_case_rate == "MED").show(5)
 
-  // Write Extended Coved Dataset to MySQL
+  // Write Extended Covid Dataset to MySQL
   val properties = new Properties()
   properties.put("user", mysqlConfig.getString("user"))
   properties.put("password", mysqlConfig.getString("password"))
