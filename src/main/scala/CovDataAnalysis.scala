@@ -118,8 +118,8 @@ object CovDataAnalysis extends App {
 
 
   // Print some Debug messages
-  logger.info("Line Count : " + lines.count())
-  logger.info("Final Dataset Count : " + extendedCovDS.count())
+  logger.info("Line Count := " + lines.count())
+  logger.info("Final Dataset Count := " + extendedCovDS.count())
 
   spark.close()
 
