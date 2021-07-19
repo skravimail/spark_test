@@ -1,4 +1,3 @@
-
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.functions.{col, lower, to_date, udf}
