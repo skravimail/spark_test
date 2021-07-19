@@ -14,7 +14,7 @@ case class CovData(
                     new_case: Option[Int],
                     total_deaths: Option[Int],
                     new_death: Option[Int]) {
-  def case_rate_classfier(num: Option[Int]): String = {
+  def caseRateClassfier(num: Option[Int]): String = {
     num match {
       case Some(x) => {
         x match {
@@ -27,7 +27,7 @@ case class CovData(
     }
   }
 
-  def death_rate_classfier(num: Option[Int]): String = {
+  def deathRateClassfier(num: Option[Int]): String = {
     num match {
       case Some(x) => {
         x match {
@@ -103,7 +103,7 @@ object CovDataAnalysis extends App {
   val baseCovidDS = renamedDfWithCast.as[CovData]
 
   val extendedCovDS = baseCovidDS.map(x => ExtCovData(x.submission_date,
-    x.state, x.total_cases, x.new_case, x.total_deaths, x.new_death, x.case_rate_classfier(x.new_case), x.death_rate_classfier(x.new_death)
+    x.state, x.total_cases, x.new_case, x.total_deaths, x.new_death, x.caseRateClassfier(x.new_case), x.deathRateClassfier(x.new_death)
   ))
 
   // Print some sample data  with some filtering
